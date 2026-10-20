@@ -2,6 +2,10 @@
 
 **Run your gig night from one link.**
 
+**Live demo: [backline-nine-delta.vercel.app](https://backline-nine-delta.vercel.app)** (click *Try the demo*, no sign-up)
+
+[![CI](https://github.com/Tarmk/backline/actions/workflows/ci.yml/badge.svg)](https://github.com/Tarmk/backline/actions/workflows/ci.yml)
+
 Bands send their setup through a private link: members, input list, monitor mixes and a drag-and-drop stage plot. The organiser gets a gear check, printable input lists and a running order. On the night, everyone's phone shows what's on now, what's next, and how late things are running.
 
 Built for multi-band nights like Battle of the Bands, where the "system" is usually a group chat, a spreadsheet and someone shouting across the stage. Works in **English and 中文**, and doesn't depend on services that are blocked in mainland China.
