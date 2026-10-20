@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/*
+ * Dark-first: this gets used side of stage in dark venues. Light mode follows
+ * the system setting. No web fonts: system fonts load instantly and Chinese
+ * renders with the platform's own CJK font (no Google Fonts, blocked in China).
+ */
+:root {
+  --bg: #0e0f12;
+  --surface: #17191e;
+  --surface-2: #20232a;
+  --border: #2c3038;
+  --text: #eceef2;
+  --muted: #9aa1ad;
+  --accent: #f5a524;
+  --accent-ink: #1a1203;
+  --live: #ef4444;
+  --ok: #22c55e;
+  --warn: #f59e0b;
+  --info: #60a5fa;
+  --stage: #1b1e24;
+  --stage-line: #3a3f49;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f6f4;
+    --surface: #ffffff;
+    --surface-2: #efefec;
+    --border: #dcdcd6;
+    --text: #18191c;
+    --muted: #61656e;
+    --accent: #d98600;
+    --accent-ink: #ffffff;
+    --live: #dc2626;
+    --ok: #15803d;
+    --warn: #b45309;
+    --info: #2563eb;
+    --stage: #fafaf8;
+    --stage-line: #c9c9c2;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-live: var(--live);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-info: var(--info);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html {
+  color-scheme: dark light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-border bg-surface;
+  }
+  .btn {
+    @apply inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-surface-2 px-4 text-sm font-medium text-text transition-colors select-none hover:border-muted disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply border-accent bg-accent text-accent-ink hover:border-accent hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply border-transparent bg-transparent hover:bg-surface-2;
+  }
+  .btn-danger {
+    @apply text-live hover:border-live;
+  }
+  .btn-sm {
+    @apply min-h-8 px-3 text-xs;
+  }
+  .input {
+    @apply min-h-10 w-full rounded-lg border border-border bg-bg px-3 text-sm text-text outline-none placeholder:text-muted focus:border-accent;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium tracking-wide text-muted uppercase;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+  .link {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #f3f3f3;
+    --border: #bbb;
+    --text: #000;
+    --muted: #444;
+    --stage: #fff;
+    --stage-line: #999;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    break-before: page;
+  }
+}
