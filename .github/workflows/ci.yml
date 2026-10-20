@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build -t backline .
+      - name: Smoke test against a real Postgres
+        run: |
+          docker network create bl
+          docker run -d --name db --network bl -e POSTGRES_PASSWORD=ci -e POSTGRES_USER=backline -e POSTGRES_DB=backline postgres:17-alpine
+          for i in $(seq 1 30); do docker exec db pg_isready -U backline && break; sleep 1; done
+          docker run -d --name app --network bl -p 3000:3000 -e DATABASE_URL=postgres://backline:ci@db:5432/backline backline
+          for i in $(seq 1 30); do curl -fsS http://localhost:3000/ > /dev/null && break; sleep 1; done
+          curl -fsS http://localhost:3000/ | grep -q "Backline"
+          # Hitting the API runs the migrations and a real query against Postgres.
+          code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/live/does-not-exist)
+          test "$code" = "404"
+      - name: Logs on failure
+        if: failure()
+        run: docker logs app || true
