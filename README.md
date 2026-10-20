@@ -1,6 +1,11 @@
 # Backline
 
+[![CI](https://github.com/Tarmk/backline/actions/workflows/ci.yml/badge.svg)](https://github.com/Tarmk/backline/actions/workflows/ci.yml)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 **Run your gig night from one link.**
+
+**Live demo:** https://backline-nine-delta.vercel.app (click **Try the demo**, no sign-up)
 
 **Live demo: [backline-nine-delta.vercel.app](https://backline-nine-delta.vercel.app)** (click *Try the demo*, no sign-up)
 
